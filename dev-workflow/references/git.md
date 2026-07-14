@@ -7,9 +7,8 @@
   you go.
 - **Don't rewrite shared history.** No force-push, no rebase of anything
   already pushed, without explicit direction.
-- Substantial work happens on a **feature branch**, named `<type>/<slug>`
-  (e.g. `feat/lora-support`, `fix/nan-loss`). Small fixes on the current
-  branch are fine.
+- All work happens on the **main branch**. If user explicitly ask for seperated
+  branch, use `<type>/<slug>` (e.g. `feat/lora-support`, `fix/nan-loss`).
 
 ## Commits
 

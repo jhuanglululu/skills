@@ -6,6 +6,10 @@ independent work and keep the main conversation's context clean. Used badly,
 they duplicate work, lose the user's intent in translation, and return
 confident summaries of things they misunderstood.
 
+Delegating is never unilateral — per the skill's Delegating rule, the user
+picks inline vs subagent; the sections below are how you form the
+recommendation that accompanies that prompt.
+
 ## When to fan out
 
 - **Independent subtasks** — pieces that share no state and don't depend on

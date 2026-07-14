@@ -7,6 +7,10 @@ description: Core development workflow for ALL projects — task sizing, when an
 
 Process rules that apply to every project, regardless of language or domain.
 
+This skill is general guidance, not law: when the user's prompt says
+otherwise, the prompt wins — follow it without asking the skill's
+permission.
+
 ## How this layers with project-type skills
 
 Project-type skills (e.g. `python-llm-training`) define *domain content*: what
@@ -50,7 +54,9 @@ General rules only — domain rules live in the project-type skill:
   defines what deserves a test (risk-based) and how expected values must be
   built (honest tests, never restating the implementation's logic).
 - **Delegating:** if the work splits into independent pieces or needs broad
-  exploration, read `references/multiagent.md` before dispatching subagents.
+  exploration, prompt the user to pick between inline and subagents — with
+  your recommendation based on the size of the task — and read
+  `references/multiagent.md` before dispatching any.
 
 ### 3. Debug
 
