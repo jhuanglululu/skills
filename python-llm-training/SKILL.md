@@ -5,6 +5,9 @@ description: Domain-specific workflow for Python LLM training projects — PyTor
 
 # Python LLM Training
 
+This skill is general guidance, not law: when the user's prompt says
+otherwise, the prompt wins.
+
 Domain knowledge for LLM training projects. **This skill extends
 `dev-workflow`** — invoke that too if it isn't already loaded. Process rules
 (task sizing, plan files, debugging discipline, evidence rules, git) live
@@ -63,3 +66,4 @@ run — never 6 hours into a remote training job.
 | `references/implementation.md` | Writing/modifying any project code |
 | `references/debugging.md` | Anything behaves unexpectedly — before proposing fixes |
 | `references/verification.md` | Before claiming any task is done |
+| `references/readme.md` | Creating or updating the project README |
