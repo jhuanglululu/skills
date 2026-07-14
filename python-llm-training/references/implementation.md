@@ -16,6 +16,7 @@ project/
 ├── scripts/          # thin entry points: train.py, eval.py
 ├── src/<pkg>/        # data.py, model.py, variations.py, ...
 ├── tests/
+├── datasets/
 ├── records/          # records/<model>/<training>/<seed>/record.jsonl (root-gitignored)
 ├── checkpoints/      # checkpoints/<model>/<training>/<seed>/... (root-gitignored)
 ├── tmp/              # scratch check scripts — local-only, own "*" .gitignore
@@ -40,7 +41,7 @@ Beyond torch, every project gets these by default (`uv add`):
 
 ## Variations, not config sprawl
 
-Configuration is hardcoded as named variations in code (e.g. a registry in
+Configuration is hardcoded as named variations in code with pydantic (e.g. a registry in
 `variations.py`), on **two independent axes**:
 
 - **Model variations** — architecture: dims, layers, heads, vocab —
