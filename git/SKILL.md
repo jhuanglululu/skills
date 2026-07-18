@@ -1,4 +1,12 @@
+---
+name: git
+description: Git habits for all projects — never commit or push unasked, feature branches for substantial work, small focused commits, running `mygit commit rule` for the current commit message format, and the two-tier gitignore rule (folder-local "*" files vs root .gitignore). Use when branching, committing, writing or editing any .gitignore, preparing work to share, or whenever the user asks for a commit.
+---
+
 # Git
+
+General guidance, not law: when the user's prompt says otherwise, the
+prompt wins.
 
 ## Ground rules
 
@@ -7,8 +15,9 @@
   you go.
 - **Don't rewrite shared history.** No force-push, no rebase of anything
   already pushed, without explicit direction.
-- All work happens on the **main branch**. If user explicitly ask for seperated
-  branch, use `<type>/<slug>` (e.g. `feat/lora-support`, `fix/nan-loss`).
+- Substantial work happens on a **feature branch**, named `<type>/<slug>`
+  (e.g. `feat/lora-support`, `fix/nan-loss`). Small fixes on the current
+  branch are fine.
 
 ## Commits
 
@@ -22,6 +31,16 @@
   no large binaries. If the current gitignore setup doesn't cover an
   artifact a new change produces, fix that in the same commit — using the
   right tier below.
+
+## Attribution lines
+
+- **Never include the `Claude-Session` + link line** in any commit
+  message — the link only works for this user's account, so to everyone
+  else reading history it's dead noise.
+- **Include the `Co-Authored-By` (Claude) line only when Claude wrote 50%
+  or more of the code in that commit.** Judge by the diff actually being
+  committed: mostly user-written or user-dictated code → no co-author
+  line; mostly Claude-generated → include it.
 
 ## Gitignore: two tiers
 

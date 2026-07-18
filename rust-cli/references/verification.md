@@ -1,8 +1,8 @@
 # Verification — Rust CLI specifics
 
 Evidence rules and the ladder concept (climb as far as the change warrants,
-paste real output, state skipped rungs) are defined in dev-workflow. These
-are the concrete rungs for Rust CLIs.
+paste real output, state skipped rungs) are defined in the verification
+skill. These are the concrete rungs for Rust CLIs.
 
 ## The rungs
 
@@ -36,8 +36,8 @@ their call, not a silent side effect.
 
 ## Silent killers — the CLI self-review checklist
 
-Per dev-workflow's self-review, hunt these in the full diff before
-presenting:
+Per the verification skill's self-review, hunt these in the full diff
+before presenting:
 
 - Stream discipline: errors anywhere but stderr? non-errors leaked onto
   stderr? leftover debug prints?
@@ -47,5 +47,5 @@ presenting:
 - Error paths that print but still exit 0?
 - Flag renames/removals or output format drift that breaks existing
   consumers?
-- Paths that assume this machine (hardcoded home dirs, macOS-only
+- Paths that assume one machine (hardcoded home dirs, OS-specific
   locations) in a tool that might run elsewhere?

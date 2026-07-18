@@ -1,7 +1,8 @@
 # Planning — LLM training specifics
 
-Process (sizing, how to ask, plan file format) is defined in dev-workflow.
-This file covers what's specific to training projects.
+Process is defined elsewhere — sizing in dev-workflow, how to ask in the
+interview skill, plan file format in the planning skill. This file covers
+what's specific to training projects.
 
 ## Planning a training run
 
@@ -31,14 +32,18 @@ metadata line.
 
 ## Questions that matter for training work
 
-When interviewing for substantial training tasks (per dev-workflow: read the
-repo first, batch the questions), these are the domain questions worth
-asking if the repo doesn't answer them:
+When interviewing for substantial training tasks (per the interview skill:
+read the repo first, batch the questions), these are the domain questions
+worth asking if the repo doesn't answer them:
 
-1. **Scale facts.** Model size, dataset size, sequence length, expected
+1. **Where does everything run?** The starting question for any new
+   project or session: where does development/testing happen, where do real
+   training runs happen (local GPU, remote box, cluster), and where does
+   inference happen? The answer decides the constraints — a run that
+   outlives an SSH session must checkpoint; Apple-silicon inference brings
+   MLX in; a shared box needs the free-GPU check.
+2. **Scale facts.** Model size, dataset size, sequence length, expected
    runtime. A design that's right at 100M params is often wrong at 7B.
-2. **Where does it run?** Local-only (MLX/MPS constraints apply) or remote
-   (must survive SSH disconnects, must checkpoint)?
 3. **What does done look like?** A metric, a working script, a plot the user
    can look at?
 

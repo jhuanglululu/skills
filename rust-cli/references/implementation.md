@@ -1,7 +1,7 @@
 # Implementation — Rust CLI specifics
 
-General rules (match existing conventions, dependencies in the manifest,
-risk-based testing principle) are in dev-workflow.
+General rules are in dev-workflow (conventions, manifests) and the testing
+skill (risk-based principle).
 
 ## Standard stack
 
@@ -72,10 +72,11 @@ When the user asks for tab completion:
 
 These CLIs are mostly small and simple: **end-to-end invocation usually
 tells more than unit tests.** Test by running the built binary against real
-inputs from throwaway scripts in `./tmp/<step>/` (per dev-workflow's
-testing reference) — real args, real files, read the actual output.
+inputs from throwaway scripts in `./tmp/<step>/` (per the testing skill) —
+real args, real files, read the actual output.
 
-- **Unit tests** only where dev-workflow's risk-based bar is genuinely met:
+- **Unit tests** only where the testing skill's risk-based bar is genuinely
+  met:
   logic tricky enough that a bug is easy to introduce and hard to spot by
   reading. clap derive itself never needs testing.
 - **Integration tests** (`tests/` with `assert_cmd` or equivalent) only for

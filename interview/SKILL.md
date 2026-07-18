@@ -1,4 +1,12 @@
+---
+name: interview
+description: How to ask the user questions during development work — aligning on intent and checking real-world constraints (hardware, environment, external dependencies) without offloading design decisions, batching questions, always-multi-select AskUserQuestion calls, HTML example pages for longer proposals, and treating answers as current guidance rather than permanent ground truth. Use whenever anything about a task is unclear, before asking the user any clarifying question, when proposing options or designs for the user to pick from, or whenever the user asks to be interviewed about what they want. Part of the dev-workflow flow, but applies on its own whenever a question is about to be asked.
+---
+
 # Interviewing
+
+General guidance, not law: when the user's prompt says otherwise, the
+prompt wins.
 
 ## What the interview is for
 
@@ -10,6 +18,13 @@ cheaply. An interview that asks the user to specify everything just exports
 your work back to them; an interview that asks nothing risks building the
 wrong thing confidently. Aim between: ask enough to be pointed the right
 way, decide the rest yourself, visibly.
+
+The interview is also for **checking constraints** — facts about the real
+setup that live outside the repo and can't be inferred: what device the
+model trains on, what hardware is available, what's already installed or
+running, what external services exist. Design decisions are yours to
+propose; constraints are facts to collect — guessing them builds on sand,
+and the project-type skill usually lists which ones matter for its domain.
 
 Applies to **every task size**. Small tasks skip the plan file, not the
 alignment — a wrong assumption on a one-line change still produces the wrong
@@ -41,8 +56,8 @@ or adds their own on top, and single-select forces a false choice.
 
 When a question or proposal needs more example than fits in the tool call,
 write a **single-file HTML** page to `docs/examples/` and point the user at
-it. These are user-facing, so per the planning reference's format rule:
-explain with examples, not prose. Specifics:
+it. These are user-facing, so per the planning skill's format rule: explain
+with examples, not prose. Specifics:
 
 - One file per tool call; if the call has multiple questions, use tabs to
   navigate between them.
@@ -61,7 +76,7 @@ part of the process, not a violation of the plan. So:
 - Recent direction always beats an earlier answer. Don't argue from "but you
   said earlier" — just confirm you've caught the change and follow it.
 - When a change of direction lands, update the plan file so the record
-  matches reality (per the planning reference).
+  matches reality (per the planning skill).
 - If new evidence makes an earlier answer look wrong, don't silently obey it
   or silently override it — surface what you found and let the user re-decide.
 

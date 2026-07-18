@@ -1,11 +1,19 @@
+---
+name: testing
+description: When to write tests and how to write honest ones — risk-based selection (test what's easy to get wrong and hard to spot by reading; skip what reading proves), expected values that never restate the implementation's logic (known answers, round-trips, property checks), and scratch check scripts organized under ./tmp/<step>/ with READMEs and a freeze rule. Use before writing any test or assertion, before writing any one-off check/inspection script, or when deciding whether something needs tests at all.
+---
+
 # Testing
+
+General guidance, not law: when the user's prompt says otherwise, the
+prompt wins.
 
 ## When tests apply
 
-Writing new tests is part of **substantial** work. Small tasks skip writing
-tests — though the existing suite still runs as verification, and if a
-"small" change turns out to touch bug-prone logic, that's a sign it was
-mis-sized.
+Writing new tests is part of **substantial** work (dev-workflow's sizing).
+Small tasks skip writing tests — though the existing suite still runs as
+verification, and if a "small" change turns out to touch bug-prone logic,
+that's a sign it was mis-sized.
 
 ## Risk-based: what gets a test
 
@@ -18,7 +26,7 @@ glue, one-line delegations, straightforward wiring. A test there costs
 maintenance without buying confidence.
 
 Glue whose correctness is only visible when run gets end-to-end verification
-instead of unit tests (see the verification reference).
+instead of unit tests (see the verification skill).
 
 The project-type skill defines which parts of its domain are the bug-prone
 ones.
@@ -60,5 +68,5 @@ tmp/
   needs a script from an earlier one, copy it into the current step's folder
   and edit the copy — never edit the frozen original. The old script must
   keep working exactly as it did for its own step.
-- `tmp/` carries a folder-local `.gitignore` with `*` (per the git
-  reference's two-tier rule); create it with the folder.
+- `tmp/` carries a folder-local `.gitignore` with `*` (per the git skill's
+  two-tier rule); create it with the folder.

@@ -1,4 +1,12 @@
+---
+name: multiagent
+description: When and how to delegate work to subagents — the user always picks inline vs subagent (with your size-based recommendation), when fanning out helps (independent pieces, broad exploration, fresh-context review, long conversations) and when it hurts, per-agent model selection (fable/opus/sonnet) and reasoning level, the no-nested-subagents rule, dispatch prompt structure, and verifying agent reports. Use whenever work could split across subagents, before dispatching any agent, or when deciding whether to delegate at all.
+---
+
 # Multi-Agent Work
+
+General guidance, not law: when the user's prompt says otherwise, the
+prompt wins.
 
 Subagents trade context for coordination: each one starts fresh, works in
 isolation, and returns only its final report. Used well, they parallelize
@@ -6,21 +14,26 @@ independent work and keep the main conversation's context clean. Used badly,
 they duplicate work, lose the user's intent in translation, and return
 confident summaries of things they misunderstood.
 
-Delegating is never unilateral — per the skill's Delegating rule, the user
-picks inline vs subagent; the sections below are how you form the
-recommendation that accompanies that prompt.
+Delegating is never unilateral: before dispatching, prompt the user to pick
+between inline and subagent, with your recommendation based on the size of
+the task — the sections below are how you form that recommendation.
 
 ## When to fan out
 
 - **Independent subtasks** — pieces that share no state and don't depend on
   each other's results. If the plan's Steps are truly "each independently
-  verifiable" (per the planning reference), some of them can be dispatched.
+  verifiable" (per the planning skill), some of them can be dispatched.
 - **Broad exploration** — searching a large codebase, sweeping many files
   for a pattern, surveying options. The subagent reads a hundred files so
   the main context doesn't have to; only the conclusion comes back.
-- **Independent verification** — reviewing a diff, adversarially checking a
+- **Fresh context needed** — reviewing a diff, adversarially checking a
   claim or a suspicious finding. A fresh-context agent has no attachment to
-  the work it's reviewing, which is exactly what a reviewer needs.
+  the work and no memory of the reasoning that produced it — exactly what a
+  reviewer needs.
+- **Long projects** — when the conversation has grown long, delegating
+  self-contained pieces saves main context and keeps the history clean:
+  the main thread stays a readable record of decisions and results instead
+  of filling with tool noise, and survives longer before context runs out.
 
 ## When NOT to fan out
 
@@ -32,8 +45,8 @@ recommendation that accompanies that prompt.
 - **Small tasks** — dispatch overhead (writing the prompt, reading the
   report, correcting misunderstandings) can exceed doing it directly.
 - **Anything requiring the user's live judgment** — subagents can't ask the
-  user questions. Interview first (per the interview reference), dispatch
-  after direction is settled.
+  user questions. Interview first (per the interview skill), dispatch after
+  direction is settled.
 
 ## Picking the model per agent
 
@@ -84,8 +97,8 @@ concurrently.
 
 ## Integrating results
 
-- **Subagent reports are claims, not evidence.** Verification rules from the
-  verification reference apply: anything an agent says works must be backed
+- **Subagent reports are claims, not evidence.** Rules from the
+  verification skill apply: anything an agent says works must be backed
   by output — rerun the relevant rungs yourself, or require the agent to
   include the actual output in its report.
 - **Merge deliberately.** After parallel edits, re-read the combined diff as

@@ -1,8 +1,8 @@
 # Implementation — LLM training specifics
 
-General implementation rules (match existing conventions, dependencies in the
-manifest, risk-based testing principle) are in dev-workflow. This file defines
-the training-specific conventions. The value behind most of them is
+General implementation rules are in dev-workflow (conventions, manifests)
+and the testing skill (risk-based principle). This file defines the
+training-specific conventions. The value behind most of them is
 **reproducibility**: any result must be re-creatable from the code, a model
 variation, a training variation, and a seed — nothing else.
 
@@ -38,6 +38,7 @@ Beyond torch, every project gets these by default (`uv add`):
   special-token assumptions are a classic silent data bug.
 - **safetensors** — all weights on disk (see checkpoints section).
 - **tqdm** — training progress display (see progress section).
+- **numpy** — hide torch's warning message.
 
 ## Variations, not config sprawl
 
@@ -70,8 +71,8 @@ shell history is gone.
 Every project includes a **`smoke` training variation** — ~32 samples,
 **~50 steps** (a real epoch is thousands of steps; 50 is enough to watch
 loss move and exercise logging/checkpointing) — and a **`tiny` model
-variation**, so `--training smoke --model tiny` finishes on this Mac in
-about two minutes. The verification ladder depends on both existing. Because
+variation**, so `--training smoke --model tiny` finishes on the development
+machine in about two minutes. The verification ladder depends on both existing. Because
 the axes are independent, `--training smoke --model large` also works as a
 quick shape/memory check of the big model.
 
@@ -147,18 +148,20 @@ per-line is unreadable at a glance, which defeats the point.
   training checkpoint down to `model.safetensors` — model weights only, no
   optimizer/scheduler/RNG state — written next to the source checkpoint.
   Training state is most of a checkpoint's size; exporting first makes
-  pulling a model from the remote box much faster, and the weights-only
-  file is what inference (torch or MLX) loads anyway.
+  pulling a model off the training machine much faster, and the
+  weights-only file is what inference (torch or MLX) loads anyway.
 
 ## Device discipline
 
-Code runs on `cuda` (remote), `mps` (this Mac), and `cpu` (tests). So:
+Which devices matter depends on the project's compute setup (per the
+starting question in the planning reference), so never assume — code must
+run on `cuda`, `mps`, and `cpu`:
 
 - One `get_device()` helper; never a literal `.cuda()` or `"cuda:0"` in
   model/data code.
 - **On cuda, pick a free GPU via `nvidia-smi`** (memory ≈ empty, no compute
-  processes) before binding — the remote box is shared, and landing on an
-  occupied GPU slows both jobs or OOMs one of them. Put the check in
+  processes) before binding — training boxes are often shared, and landing
+  on an occupied GPU slows both jobs or OOMs one of them. Put the check in
   `get_device()` so every script gets it.
 - Guard non-portable features (`torch.compile`, bf16, flash attention)
   behind the variation definitions with safe defaults, so
@@ -175,8 +178,9 @@ Code runs on `cuda` (remote), `mps` (this Mac), and `cpu` (tests). So:
 
 - **torch (cuda/mps/cpu): training *and* inference.** The torch inference
   path is what training-time evals and remote generation use.
-- **MLX: local inference only**, never the training path. These are
-  experiments with custom architectures, so `mlx_lm` generally won't load
+- **MLX: inference only** (when the project includes Apple-silicon
+  inference), never the training path. These are experiments with custom
+  architectures, so `mlx_lm` generally won't load
   them — **write a custom MLX inference module** (e.g.
   `src/<pkg>/mlx_infer.py`): mirror the torch model definition in MLX and
   load the same safetensors weights directly. Keep the import boundary

@@ -1,8 +1,8 @@
 # Verification — LLM training specifics
 
 Evidence rules and the ladder concept (climb as far as the change warrants,
-paste real output, state skipped rungs) are defined in dev-workflow. This
-file defines the concrete rungs for training projects.
+paste real output, state skipped rungs) are defined in the verification
+skill. This file defines the concrete rungs for training projects.
 
 ## The rungs
 
@@ -19,8 +19,8 @@ reference is enforced here: changed masking/tokenization/data logic with no
 covering test means writing the test now.
 
 **3. Local smoke run — every change touching the training path.**
-Run `--training smoke --model tiny` end-to-end on this Mac (~50 steps,
-< 2 min). It must:
+Run `--training smoke --model tiny` end-to-end on the development machine
+(~50 steps, < 2 min). It must:
 
 - complete without error,
 - produce a JSONL with a meta line and step lines,
@@ -40,28 +40,29 @@ Inference/eval scripts, data pipeline CLIs, plotting tools: run them on real
 a real prompt and read the generation; compare against torch output from the
 same checkpoint when correctness is in question.
 
-**5. Remote launch readiness — before any real training run.**
+**5. Launch readiness — before any real training run.**
 The expensive rung. Before handing the user a launch command:
 
-- smoke run passed locally on the *same commit* being launched,
+- smoke run passed on the *same commit* being launched,
 - config reviewed against the run's stated plan (hypothesis, metric,
   decision criterion exist — see planning reference),
-- checkpointing + resume verified (rung 3), because remote runs die,
+- checkpointing + resume verified (rung 3), because long runs die (SSH
+  drops, preemption, shared-box surprises),
 - model and training variations defined in code (not flag-assembled), seed
   explicit, baseline set — so the run's
   `records/<model>/<training>/<seed>/record.jsonl` metadata is right,
 - cost estimate stated (steps × sec/step from a comparable run's record).
 
-Launching on the remote box is the user's call. Present the command; don't
-run it unasked.
+Launching a real training run is the user's call. Present the command;
+don't run it unasked.
 
 Some projects genuinely can't climb every rung (e.g. no runnable smoke path
-yet) — per dev-workflow, say which rungs were skipped and why.
+yet) — per the verification skill, say which rungs were skipped and why.
 
 ## Silent killers — the training self-review checklist
 
-Dev-workflow's self-review says to hunt the domain's silent killers in the
-full diff before presenting. For training code, they are:
+The verification skill's self-review says to hunt the domain's silent
+killers in the full diff before presenting. For training code, they are:
 
 - **Alignment:** labels shifted correctly? prompt tokens masked with `-100`?
   padding excluded from loss?
@@ -71,7 +72,7 @@ full diff before presenting. For training code, they are:
 - **Randomness:** any new randomness that isn't seeded (augmentation,
   sampling, dataloader workers)?
 - **Portability:** hardcoded device, absolute path, or personal directory
-  that breaks on the other machine?
+  that breaks on another machine?
 - **Config honesty:** every new behavior reachable from config, defaults
   matching previous behavior (a changed default silently changes everyone's
   runs)?

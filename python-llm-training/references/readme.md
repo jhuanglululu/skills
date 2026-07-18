@@ -16,7 +16,7 @@ One paragraph: what is being trained/investigated, and why.
 
 ## Setup
 uv sync, required env vars (paths/tokens — names and what they point to),
-what runs locally vs what needs the remote box.
+and which commands run where, if the project spans machines.
 
 ## Usage
 The real commands, copy-pasteable:

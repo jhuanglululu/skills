@@ -1,16 +1,23 @@
+---
+name: planning
+description: How plan and design files are organized — the local-only docs/ directory (own "*" .gitignore, never committed), plan files as docs/plans/<id>-<slug>.md with sign-off before code, design records in docs/designs/ with numbered update logs, and the user-facing-HTML vs agent-facing-markdown format rule. Use before writing or updating any plan or design document, when recording a decision, when resuming work that has an existing plan, or whenever the user mentions plans, designs, or the docs folder.
+---
+
 # The docs/ Directory — Plans & Designs
 
-(How to interview before writing a plan is in the interview reference.)
+General guidance, not law: when the user's prompt says otherwise, the
+prompt wins. (How to interview before writing a plan is the interview
+skill.)
 
 All design files live in `docs/`. It belongs to the user and the agents
 working on the project — **never committed**. It contains its own
 `.gitignore` with just `*`; create that file when creating `docs/` (see the
-git reference for the gitignore rules).
+git skill for the gitignore rules).
 
 ```
 docs/
 ├── .gitignore     # contains "*" — nothing in docs/ is tracked
-├── examples/      # longer examples shown while interviewing/proposing (see interview reference)
+├── examples/      # longer examples shown while interviewing/proposing (see interview skill)
 ├── plans/         # plans saved for other sessions
 └── designs/       # things that were decided
 ```

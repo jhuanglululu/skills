@@ -10,8 +10,9 @@ otherwise, the prompt wins.
 
 Domain knowledge for Rust command-line tools. **This skill extends
 `dev-workflow`** — invoke that too if it isn't already loaded. Process rules
-(task sizing, plan files, debugging discipline, evidence rules, git) live
-there; this skill supplies what's different about Rust CLIs.
+live in dev-workflow and its companion skills (interview, planning, testing,
+debugging, verification, git, multiagent); this skill supplies what's
+different about Rust CLIs.
 
 What's different, in one sentence: **a CLI's interface is its contract** —
 flags, output format, and exit codes are what scripts, pipes, and other
@@ -37,7 +38,7 @@ get elsewhere.
 - **Implementation:** standard stack (clap, anyhow), thin `main.rs` over a
   testable library, error and output conventions:
   `references/implementation.md`.
-- **Debugging:** per dev-workflow, nothing exotic. `RUST_BACKTRACE=1` on
+- **Debugging:** per the debugging skill, nothing exotic. `RUST_BACKTRACE=1` on
   panics; `dbg!()` beats print-debugging; most "impossible" CLI bugs are
   argument parsing or env differences — check what the binary actually
   received.

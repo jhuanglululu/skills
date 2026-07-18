@@ -1,6 +1,6 @@
 ---
 name: python-llm-training
-description: Domain-specific workflow for Python LLM training projects — PyTorch/HuggingFace training code, uv-managed environments, JSONL experiment logs, and a local-Mac (MLX/MPS) + remote-GPU split. Use this whenever the task touches model training, fine-tuning, dataset preparation, tokenization, training loops, loss/convergence debugging, evaluation harnesses, checkpoint handling, or local inference with MLX — from the first message of the task, before writing any code. Always use together with the dev-workflow skill, which owns the general process this skill plugs into.
+description: Domain-specific workflow for Python LLM training projects — PyTorch/HuggingFace training code, uv-managed environments, JSONL experiment logs, and device-agnostic code across whatever compute the project uses. Use this whenever the task touches model training, fine-tuning, dataset preparation, tokenization, training loops, loss/convergence debugging, evaluation harnesses, checkpoint handling, or local inference with MLX — from the first message of the task, before writing any code. Always use together with the dev-workflow skill, which owns the general process this skill plugs into.
 ---
 
 # Python LLM Training
@@ -10,25 +10,27 @@ otherwise, the prompt wins.
 
 Domain knowledge for LLM training projects. **This skill extends
 `dev-workflow`** — invoke that too if it isn't already loaded. Process rules
-(task sizing, plan files, debugging discipline, evidence rules, git) live
-there and are not repeated here; this skill supplies what's *different* about
-training code.
+live in dev-workflow and its companion skills (interview, planning, testing,
+debugging, verification, git, multiagent) and are not repeated here; this
+skill supplies what's *different* about training code.
 
 What's different, in one sentence: **the expensive failure mode is silent.**
 A bug in a data pipeline or loss mask doesn't crash — it burns GPU-hours
 producing a subtly worse model. Everything here exists to catch problems at
 the cheapest moment: at plan time, at code time, or in a 2-minute local smoke
-run — never 6 hours into a remote training job.
+run — never 6 hours into a real training job.
 
 ## Ground rules
 
 - **uv only.** `uv run`, `uv add`, `uv sync`. Never bare `pip install` or
   manually activated venvs. If a project lacks `pyproject.toml`, set it up
   with `uv init` before adding code.
-- **Two-machine reality.** This Mac does development, testing, and MLX/MPS
-  inference. Real training runs happen on a remote GPU box. Code must be
-  device-agnostic, and every training script must be runnable at toy scale
-  locally.
+- **Ask where things run.** Compute setups differ per project — a good
+  starting question: *"where does development and testing happen, where do
+  real training runs happen (local GPU, remote box, cluster), and where
+  does inference happen?"* Whatever the answer: code stays device-agnostic,
+  and every training script must run at toy scale on the development
+  machine.
 - **JSONL is the experiment record.** Every run appends to
   `records/<model>/<training>/<seed>/record.jsonl` — metadata line first,
   then per-step metrics. A run is fully identified by code + model
@@ -54,7 +56,7 @@ run — never 6 hours into a remote training job.
   failure catalog (NaN loss, flat loss, OOM, slow steps, bad-at-inference):
   `references/debugging.md`.
 - **Verification:** the concrete rungs of the ladder for training code —
-  ruff, pytest, the local smoke run, real inference runs, and remote launch
+  ruff, pytest, the local smoke run, real inference runs, and launch
   readiness — plus the self-review checklist of training's silent killers:
   `references/verification.md`.
 

@@ -1,14 +1,15 @@
 # Debugging — LLM training specifics
 
 The investigation order (reproduce small → look at actual state → hypothesis
-→ user reviews it → test → bisect → fix and prove) is defined in dev-workflow. This file maps it onto
-training code and catalogs the standard failures.
+→ user reviews it → test → bisect → fix and prove) is defined in the
+debugging skill. This file maps it onto training code and catalogs the
+standard failures.
 
 ## Applying the investigation order here
 
-- **Minimum scale means:** smoke config, on this Mac, CPU if possible — CPU
-  gives better stack traces than MPS/CUDA and removes device-specific
-  causes. A bug that disappears at small scale points at fp16/bf16, data
+- **Minimum scale means:** smoke config, on the development machine, CPU
+  if possible — CPU gives better stack traces than MPS/CUDA and removes
+  device-specific causes. A bug that disappears at small scale points at fp16/bf16, data
   dependence, or distributed-only causes.
 - **"Look at actual state" means the batch.** Decode and print one full
   batch exactly as the model sees it: input tokens as text, labels with
@@ -55,8 +56,8 @@ blaming the checkpoint.
 
 **OOM.** In order of preference: gradient accumulation (halve batch, double
 accum — identical math), activation checkpointing, shorter sequences, then
-smaller model. On the Mac, MPS memory pressure also shows up as extreme
-slowdown rather than a clean OOM.
+smaller model. On MPS, memory pressure also shows up as extreme slowdown
+rather than a clean OOM.
 
 **Val diverging from train (overfitting).** The default failure for small
 models — watch the `diff` column (val − train) in the progress display; a
@@ -75,8 +76,8 @@ different distribution makes this one).
 pad to fixed shapes or mark dims dynamic. Also check the GPU isn't shared
 with another process (`nvidia-smi`). Then profile: check `sec_per_step` in
 the JSONL and whether GPU utilization is low (dataloader bottleneck — more
-workers, pre-tokenize the dataset) or high (the model is just big — that's
-what the remote box is for). Don't micro-optimize the loop without a
+workers, pre-tokenize the dataset) or high (the model is just big — it
+belongs on the training hardware). Don't micro-optimize the loop without a
 measurement.
 
 **Resume produces different results.** Optimizer state or RNG state not in

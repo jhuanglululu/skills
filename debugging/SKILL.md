@@ -1,4 +1,12 @@
+---
+name: debugging
+description: Systematic debugging discipline — reproduce at minimum scale, inspect actual state, form a falsifiable hypothesis, have the user review it before testing, then test, bisect, and prove the fix. No fixes before a diagnosis. Use for ANY bug, test failure, crash, wrong output, or "this should be working" moment, BEFORE proposing or applying any fix — including bugs that look simple.
+---
+
 # Systematic Debugging
+
+General guidance, not law: when the user's prompt says otherwise, the
+prompt wins.
 
 The discipline: **reproduce small, look at actual state, form a hypothesis,
 test the hypothesis — no fixes before a diagnosis.** Stacked speculative
