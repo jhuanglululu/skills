@@ -52,9 +52,17 @@ can still reason about it. Short examples go in inline code blocks.
 Reference designs by filename where relevant; **never reference examples** —
 they're throwaway.
 
-Get explicit sign-off before implementing. If the user redirects during
-implementation, update the plan file — it's the durable record of what was
-agreed, and the first thing to read when work resumes in a later session.
+Get explicit sign-off before implementing. When presenting the plan for
+review, **don't hand the user the markdown file** — it's agent-facing.
+Write a summary for review instead: directly in the response for a short
+plan, or a single-file HTML page for a long one (the interview skill's
+examples format). And **don't use the question tool (AskUserQuestion) for
+sign-off** — it times out in Claude Code while the user is still reading;
+ask in plain conversation and wait.
+
+If the user redirects during implementation, update the plan file — it's
+the durable record of what was agreed, and the first thing to read when
+work resumes in a later session.
 
 ## Designs (`docs/designs/`)
 
