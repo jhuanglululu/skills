@@ -19,7 +19,7 @@ Applies to **every task size**. Small tasks skip the plan file, not the alignmen
 
 - **Read before asking.** Explore the repo, existing docs, and plan files first. Never ask about facts you can find in the project.
 - **Ask only what you cannot decide-and-propose yourself**: intent, priorities, constraints that live in the user's head. If it's a detail you could make a good call on, make the call and state it instead of asking.
-- **Ask for unclear intention.** User propose something that you can't reasonly guess the intention. Ask instead of assuming it is correct. The user can be wrong.
+- **Ask for unclear intention.** User propose something that you can't reasonly guess the intention. Ask instead of assuming it is correct. The user can be wrong. 
 - **Batch questions** into one round, most important first, with your recommended answer stated where you have one. Aim for one round of questions.
 - **State assumptions instead of asking about trivia.** "I'm assuming X; say so if that's wrong" keeps momentum while staying correctable.
 

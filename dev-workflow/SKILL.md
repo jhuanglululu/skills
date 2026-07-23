@@ -53,7 +53,7 @@ Invoke the **git** skill when branching, committing, or preparing to share work.
 
 | Skill | Invoke it when |
 |---|---|
-| `interview` | Anything about the task is unclear — any size, before asking |
+| `question-asking` | Anything about the task is unclear — any size, before asking |
 | `planning` | Task is substantial — before writing the plan file |
 | `testing` | Before writing any test or scratch check script |
 | `subagent` | Work could split across subagents — before dispatching any |
