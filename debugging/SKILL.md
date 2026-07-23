@@ -1,52 +1,19 @@
 ---
 name: debugging
-description: Systematic debugging discipline — reproduce at minimum scale, inspect actual state, form a falsifiable hypothesis, have the user review it before testing, then test, bisect, and prove the fix. No fixes before a diagnosis. Use for ANY bug, test failure, crash, wrong output, or "this should be working" moment, BEFORE proposing or applying any fix — including bugs that look simple.
+description: Systematic debugging discipline, invoke this skill before starting any debugging.
 ---
 
 # Systematic Debugging
 
-General guidance, not law: when the user's prompt says otherwise, the
-prompt wins.
+General guidance, not law: when the user's prompt says otherwise, the prompt wins.
 
-The discipline: **reproduce small, look at actual state, form a hypothesis,
-test the hypothesis — no fixes before a diagnosis.** Stacked speculative
-fixes obscure the bug, corrupt the evidence, and in expensive-to-run domains
-each guess has a real cost.
+General discipline: **reproduce, analyze, hypothesize, test** before any diagnosis and fix.
 
 ## The investigation order
 
-1. **Reproduce at minimum scale.** Shrink the failing case until it fails
-   fast and locally — smallest input, fewest components, cheapest
-   environment. A bug that *disappears* when shrunk is itself a diagnosis
-   clue: something about scale, timing, or environment is part of the cause.
-   The project-type skill defines what "minimum scale" looks like in its
-   domain.
-2. **Look at actual state before theorizing.** Print the real values at the
-   failure boundary — actual inputs, actual intermediate data, actual
-   config — not what the code *should* produce. Most "impossible" bugs are
-   an input that isn't what you assumed.
-3. **Form a specific, falsifiable hypothesis.** "It fails because X is
-   empty" — concrete enough that a single observation can kill it.
-4. **Show the hypothesis to the user before testing it.** State what you
-   think is happening and what you're about to check. The user runs the
-   project interactively and may have seen things you can't see from the
-   code — and the original bug description may not match the actual bug.
-   This checkpoint catches a wrong premise before any time is spent chasing
-   it.
-5. **Test the hypothesis directly.** "X is empty" → print X. Every rejected
-   hypothesis narrows the search; every untested guess widens it.
-6. **Bisect with known-good components.** Swap suspect parts for known-good
-   ones (synthetic input, stub dependency, last-known-good commit). Which
-   swap fixes it tells you which side the bug is on.
-7. **Fix, then prove the fix at the same minimum scale** that reproduced the
-   bug. Where feasible, add the assertion or test that would have caught
-   it — bugs recur in the places they were born.
-
-## Rationalizations to catch yourself on
-
-- "It's probably X, let me just try changing it" — that's a hypothesis;
-  test it by *observation* before changing code.
-- "This one's simple, no need for the process" — simple-looking bugs with
-  wrong first guesses are how an hour becomes an afternoon.
-- "I'll add a few fixes at once to save time" — now a pass/fail tells you
-  nothing about which change mattered.
+1. **Reproduce.** Recreate the bug and target the root cause by shrinking the scale. Skip this step if the bug caused machine/system failure. Reproduce safely.
+2. **Analyze.** Find traces and hints that point to the cause. Support your claim with evidence.
+3. **Hypothesize.** Create a what and why for the bug. Then propose it to the user. You and the user don't interact with the project the same way, so you or the user might missed something.
+4. **Test.** Test the hypothesis directly (skip if it cause machine/system failure).
+6. **Fix.** Apply the fix and verify(with **verification** skill) and ask user to review.
+7.
