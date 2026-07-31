@@ -10,7 +10,7 @@ General guidance, not law: when the user's prompt says otherwise, the prompt win
 ## Evidence rules
 
 - Never claim work is complete, fixed, or passing without having run the thing that proves it.
-- State how many passed, skipped and failed.
+- State how many tests passed, skipped and failed.
 
 ## The ladder (general shape)
 
