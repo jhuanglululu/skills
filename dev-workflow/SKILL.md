@@ -67,3 +67,4 @@ Write a summary in your response, presenting the changes to the user directly. W
 | `verification` | Before claiming any task is done; before presenting work |
 | `git-habits` | Branching, committing or pushing |
 | `throwaway-html` | Creating a single-use HTML presentation |
+| `homework-cli` | homework cli tool for spawning subagent of another family |

@@ -36,6 +36,8 @@ Match the model to the hardest thing the agent must do:
 
 Only use Fable when the user explicitly requests it, and avoid haiku — sonnet at low effort costs slightly more and does better.
 
+You can access other model (gpt-5.6-sol) family through `homework` cli, see `homework-cli` skill. Use when user requests.
+
 ## How to split a task
 
 - **Stop before a checkpoint.** When one part of a task is error-prone or requires review, like writing a custom einsum or wiring up multiple parts, split the task so that you can review before errors propagate.
