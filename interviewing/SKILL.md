@@ -1,6 +1,6 @@
 ---
 name: interviewing
-description: When and how to ask user questions using the AskUserQuestion tool. Use before any planning and implementation to align you and the user.
+description: When and how to ask user questions using the AskUserQuestion tool. Use before any planning and implementation to align you and the user. Also invoke before using AskUserQuestion tool.
 ---
 
 # Interviewing
