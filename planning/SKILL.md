@@ -1,31 +1,15 @@
 ---
 name: planning
-description: How plan and design files are organized. Use before writing or updating any plan or design document, when recording a decision, when resuming work that has an existing plan, or whenever the user mentions plans, designs, or the context folder.
+description: How plan and design files are written. Use before writing or updating any plan or design document, when recording a decision, when resuming work that has an existing plan, or whenever the user mentions plans or designs.
 ---
 
-# The context/ Directory — Plans & Designs
+# Plans & Designs
 
 General guidance, not law: when the user's prompt says otherwise, the prompt wins.
 
-All design files live in `context/`. It belongs to the user and the agents working on the project — **never committed**. It contains its own `.gitignore` with just `*`; create that file when creating `context/` (see the **git** skill for the gitignore rules).
-
-```
-context/
-├── .gitignore     # contains "*" — nothing in context/ is tracked
-├── presentations/      # longer examples shown while asking questions/proposing (see interviewing skill)
-├── plans/         # plans saved for other sessions
-└── designs/       # things that were decided
-```
-
-## Format rule: pick by audience
-
-- **User-facing → single-file HTML** (`presentations/`): explain with *examples* instead of words and sentences — that's the whole reason for HTML over markdown.
-- **Agent-facing → markdown** (`plans/`, `designs/`): explain clearly with words so an agent without this conversation's context can understand easily. This is for both subagents and future sessions without context.
+Plans and designs live in `context/plans/` and `context/designs/` — see the **context-folder** skill for the folder rules (local-only, naming, audience/format, referencing). This skill covers what goes *in* them.
 
 ## Plans (`context/plans/<id>-<slug>.md`)
-
-`<id>` is the next sequential number, so the user can refer to "plan 3" in
-conversation. Timestamp goes on a line under the title.
 
 ```markdown
 # <Title>

@@ -11,7 +11,7 @@ This skill is general guidance, not law: when the user's prompt says otherwise, 
 
 ## How this layers
 
-- **Companion skills** (interviewing, planning, testing, debugging, verification, git-habits, subagent) define *how* and *when* to do each part of the process.
+- **Companion skills** (interviewing, context-folder, planning, testing, debugging, verification, git-habits, subagent) define *how* and *when* to do each part of the process.
 - **Project-type skills** (e.g. `python-llm-training`, `rust-cli`) define *domain content*: what questions matter, what verification proves, which tools to run.
 
 ## The flow
@@ -61,6 +61,7 @@ Write a summary in your response, presenting the changes to the user directly. W
 | Skill | Invoke it when |
 |---|---|
 | `interviewing` | Anything about the task is unclear — any size, before asking |
+| `context-folder` | Before creating or writing anything under `context/` |
 | `planning` | When the task requires a proper planning phase with plan files |
 | `testing` | Before writing any test or scratch check script |
 | `subagent` | Work could split across subagents — before dispatching any |

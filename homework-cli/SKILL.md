@@ -31,7 +31,7 @@ Find all TODO comments under src/ and summarize them by module.
 
 Restriction is structural: tools not listed are never registered on the pi session, and file tools enforce the path scoping before executing. `bash` bypasses path scoping by nature, so grant it deliberately.
 
-Put the homework file at `./context/subagents/{slug}/{slug.md}` so that future session can reference it
+Put the homework file at `context/subagents/{slug}/{slug}.md` (see the **context-folder** skill) so that future sessions can reference it.
 
 ## Tools
 

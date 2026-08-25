@@ -18,13 +18,11 @@ HTML allows for a more expressive way of delivering content to the user than mar
 
 ## General guidelines
 
-- Write to `context/presentations/` (see the **planning** skill for writing in `context/`).
-- Use `<id>-<slug>` so that the user can find the newest file easily.
+- Write to `context/presentations/` (see the **context-folder** skill for location, naming, and the throwaway rule).
 - A single self-contained file: inline the JS and CSS.
 - If the page includes code, syntax-highlight it — a CDN library is fine — assume an internet connection.
 - One file per presentation (one AskUserQuestion tool call or one summary); if the content has multiple categories, use tabs to structure them.
 - Keep it simple; reference plans or designs by filename if needed.
-- These files are **throwaway**: never reference them from plans or designs, and create a new file if the topic changes.
 
 ## Style defaults
 
