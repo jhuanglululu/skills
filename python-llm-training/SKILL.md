@@ -1,71 +1,67 @@
 ---
 name: python-llm-training
-description: Domain-specific workflow for Python LLM training projects — PyTorch/HuggingFace training code, uv-managed environments, JSONL experiment logs, and device-agnostic code across whatever compute the project uses. Use this whenever the task touches model training, fine-tuning, dataset preparation, tokenization, training loops, loss/convergence debugging, evaluation harnesses, checkpoint handling, or local inference with MLX — from the first message of the task, before writing any code. Always use together with the dev-workflow skill, which owns the general process this skill plugs into.
+description: Domain-specific workflow for Python LLM training projects. Use this from the first message of the task, before writing any code or doing any planning.
 ---
 
 # Python LLM Training
 
-This skill is general guidance, not law: when the user's prompt says
-otherwise, the prompt wins.
+This skill is general guidance, not law. When the user's prompt says otherwise, the prompt wins.
 
-Domain knowledge for LLM training projects. **This skill extends
-`dev-workflow`** — invoke that too if it isn't already loaded. Process rules
-live in dev-workflow and its companion skills (interview, planning, testing,
-debugging, verification, git, multiagent) and are not repeated here; this
-skill supplies what's *different* about training code.
-
-What's different, in one sentence: **the expensive failure mode is silent.**
-A bug in a data pipeline or loss mask doesn't crash — it burns GPU-hours
-producing a subtly worse model. Everything here exists to catch problems at
-the cheapest moment: at plan time, at code time, or in a 2-minute local smoke
-run — never 6 hours into a real training job.
+**This skill extends `dev-workflow`.** Invoke that skill too if it isn't already loaded. This skill supplies the specifics of training an LLM.
 
 ## Ground rules
 
-- **uv only.** `uv run`, `uv add`, `uv sync`. Never bare `pip install` or
-  manually activated venvs. If a project lacks `pyproject.toml`, set it up
-  with `uv init` before adding code.
-- **Ask where things run.** Compute setups differ per project — a good
-  starting question: *"where does development and testing happen, where do
-  real training runs happen (local GPU, remote box, cluster), and where
-  does inference happen?"* Whatever the answer: code stays device-agnostic,
-  and every training script must run at toy scale on the development
-  machine.
-- **JSONL is the experiment record.** Every run appends to
-  `records/<model>/<training>/<seed>/record.jsonl` — metadata line first,
-  then per-step metrics. A run is fully identified by code + model
-  variation + training variation + seed; reproducibility is the point.
-  Schema in `references/implementation.md`.
+- **uv only.** Use `uv run`, `uv add`, and `uv sync`. Never use bare `pip install` or manually activated venvs. Run `uv init` if the project is not initialized.
 
-## Domain deltas per phase
+## Suggested questions
 
-- **Planning:** training runs are sized like any other task (dev-workflow's
-  small/substantial rule), but a run meant to answer a question always needs
-  a hypothesis, metric, and decision criterion written down before launch —
-  at a weight matching its size. That, what to ask, and what belongs in a
-  training plan's Risks: `references/planning.md`.
-- **Implementation:** hardcoded named variations on two axes — model
-  (architecture) and training (recipe) — selected via `--model`/`--training`
-  (never architecture through free-form flags/env), required `smoke`
-  training and `tiny` model variations, records and checkpoint conventions
-  (safetensors, resume by default, keep 3 best), device and shape/masking
-  discipline, and which parts of training code get unit tests vs smoke
-  runs: `references/implementation.md`.
-- **Debugging:** what "minimum scale" means here, the two universal sanity
-  checks (overfit-one-batch, loss ≈ ln(V) at step 0), and the standard
-  failure catalog (NaN loss, flat loss, OOM, slow steps, bad-at-inference):
-  `references/debugging.md`.
-- **Verification:** the concrete rungs of the ladder for training code —
-  ruff, pytest, the local smoke run, real inference runs, and launch
-  readiness — plus the self-review checklist of training's silent killers:
-  `references/verification.md`.
+See the `interviewing` skill first for question format.
 
-## Reference files
+1. Where does training happen?
+2. Where does inference happen?
+3. What is the target language?
+4. What is the model size budget?
+5. What features do we need? For example: resumability, exporting to pure weights, an MLX implementation.
 
-| File | Read it when |
+Summarize and record the decisions. If a later checkpoint, record, or user prompt suggests a decision has changed, ask for clarification and update the recorded decisions.
+
+## Project layout
+
+Typical shape. Adapt to what an existing repo already uses.
+
+```
+project/
+├── pyproject.toml
+├── scripts/          # thin entry points: train.py, eval.py
+├── src/<pkg>/        # data.py, model.py, variations.py, ...
+├── tests/
+├── datasets/
+├── records/          # records/<model>-<training>/<seed>-record.jsonl (root-gitignored)
+├── checkpoints/      # checkpoints/<model>-<training>/<seed>-<step|current>.safetensors (root-gitignored)
+├── tmp/              # scratch check scripts, local-only, contains a "*" .gitignore
+└── context/          # local-only working memory (see the context-folder skill)
+```
+
+## Default stack
+
+Beyond torch, every project gets these by default via `uv add`:
+
+- **tokenizers**: a tokenizer JSON file is provided in most cases. Load it with the Hugging Face `tokenizers` library, and check for special tokens with a one-time script first.
+- **safetensors**: all weights on disk. See the checkpoints section of the training reference.
+- **tqdm**: training progress display. See the progress section of the training reference.
+- **numpy**: suppresses torch's missing-numpy warning.
+
+## Inference scripts
+
+Use one CLI shape for all inference entry points:
+
+- **Model:** a checkpoint path or a `--model` variation name.
+- **Sampling:** `--top-k`, `--top-p`, `--rep-pen`, and `--seed`, each with a sensible default so a bare invocation generates without further flags.
+- **Print decode speed** in tokens per second after generating. Skip prefill measurement. It is hard to measure accurately in a simple script, and a misleading number is worse than none.
+
+## References
+
+| Reference | Read it when |
 |---|---|
-| `references/planning.md` | Planning substantial training work, or any training run |
-| `references/implementation.md` | Writing/modifying any project code |
-| `references/debugging.md` | Anything behaves unexpectedly — before proposing fixes |
-| `references/verification.md` | Before claiming any task is done |
-| `references/readme.md` | Creating or updating the project README |
+| `references/training.md` | Before writing training code: variations, records, progress display, checkpoints, device selection, testing, pitfalls |
+| `references/readme.md` | Before creating or editing the project README |
