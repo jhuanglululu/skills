@@ -14,20 +14,23 @@ Use `subagent` skill too if not loaded. Source code for `homework` can be found 
 One markdown file per task. Frontmatter is the complete config (there is no
 global config file); the body is the task prompt.
 
-List the model names before writing.
+Run `homework providers list` to see registered endpoints before writing; pi's built-in providers (`openai`, `openrouter`, ...) are referenced by name.
 
 ```markdown
 ---
-model: custom/gpt-5.6-sol   # required, provider/model; custom/<name> for registered models
+provider: cliproxy          # required; a pi provider or an endpoint from `homework providers add`
+model: gpt-5.6-sol          # required; model id as the provider knows it, may contain slashes
 tools: [read, grep, ls, fetch, search]
 write_dirs: [./src]         # optional; write/edit rejected outside these dirs
 read_dirs: []               # optional; empty/absent = unrestricted reads
 cwd: .                      # optional, relative to this file (default: file's dir)
 max_turns: 40               # optional, default 50
-thinking: low               # optional: off|minimal|low|medium|high
+thinking: low               # optional: off|minimal|low|medium|high; some models (OpenRouter muse-spark) reject off
 ---
 Find all TODO comments under src/ and summarize them by module.
 ```
+
+Both `provider` and `model` are required — there is no combined `provider/model` form. Models missing from pi's catalog still work (e.g. `provider: openrouter` / `model: meta/muse-spark-1.2-contributor`); they are synthesized from the provider's endpoint and assumed to support reasoning and images. Models in pi's catalog use the catalog's capabilities, so a catalog model marked text-only silently drops images from `read`.
 
 Restriction is structural: tools not listed are never registered on the pi session, and file tools enforce the path scoping before executing. `bash` bypasses path scoping by nature, so grant it deliberately.
 
@@ -67,7 +70,9 @@ homework status <id|file>         state + last message + error
 homework list                     all tasks
 homework kill <id|file>           cancel a running task
 homework send <id|file> <msg>     steer a running task (next turn boundary)
-homework models list | remove <name>
+homework providers add <endpoint> --url <url> --api <openai|anthropic> [--token <key> | --token-env <VAR>]
+                                  register an endpoint; any model id works under it, no server restart needed
+homework providers list | remove <endpoint>
 ```
 
 Without `--wait`, `run` prints the task id and returns; poll with `status`.
