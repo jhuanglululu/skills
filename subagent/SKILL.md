@@ -23,20 +23,9 @@ After spawning subagents, report to the user what each subagent is for and what 
 
 ## Picking the model per agent
 
-Match the model to the hardest thing the agent must do:
+Always use **Opus with high effort** for all work unless user explicitly request other model or effort level.
 
-| Work | Model | Effort |
-|---|---|---|
-| File/pattern search, inventory | sonnet | low |
-| Doc updates, mechanical refactor | sonnet | low–medium |
-| Research & synthesis | sonnet | medium |
-| Feature implementation | opus | medium |
-| Hard algorithmic / debugging | opus | high |
-| Review with fresh eyes | opus | medium–high |
-
-Only use Fable when the user explicitly requests it, and avoid haiku — sonnet at low effort costs slightly more and does better.
-
-You can access other model (gpt-5.6-sol) family through `homework` cli, see `homework-cli` skill. Use when user requests.
+You can access other model family through `homework` cli, see `homework-cli` skill. Use when user requests.
 
 ## How to split a task
 
