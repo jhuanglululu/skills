@@ -63,8 +63,8 @@ Write a summary in your response, presenting the changes to the user directly. W
 | `interviewing` | Anything about the task is unclear — any size, before asking |
 | `context-folder` | Before creating or writing anything under `context/` |
 | `planning` | When the task requires a proper planning phase with plan files |
-| `testing` | Before writing any test or scratch check script |
-| `subagent` | Work could split across subagents — before dispatching any |
+| `test-writing` | Before writing any test or scratch check script |
+| `subagents` | Work could split across subagents — before dispatching any |
 | `verification` | Before claiming any task is done; before presenting work |
 | `git-habits` | Branching, committing or pushing |
 | `throwaway-html` | Creating a single-use HTML presentation |

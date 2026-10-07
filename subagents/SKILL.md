@@ -1,5 +1,5 @@
 ---
-name: subagent
+name: subagents
 description: Include when and how to use subagents. Always invoke this skill before invoking subagents.
 ---
 
